@@ -25,6 +25,18 @@ export default {
                     'error')
                 return
             }
+            if (/\s/.test(this.username)) {
+                Swal.fire('注册失败!',
+                    '用户名中不能存在空格！',
+                    'error')
+                return
+            }
+            if (/\s/.test(this.password_1) || /\s/.test(this.password_2)) {
+                Swal.fire('注册失败!',
+                    '密码中不能存在空格！',
+                    'error')
+                return
+            }
             if (this.password_1 == '' || this.password_2 == '') {
                 Swal.fire('注册失败!',
                     '请输入密码！',
