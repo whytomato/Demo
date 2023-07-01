@@ -12,14 +12,16 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Author',
+            name='User',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('username', models.CharField(max_length=100, verbose_name='name')),
-                ('password', models.CharField(max_length=20, verbose_name='password')),
+                ('password', models.CharField(
+                    max_length=20, verbose_name='password')),
             ],
             options={
-                'db_table': 'author',
+                'db_table': 'user',
             },
         ),
     ]
