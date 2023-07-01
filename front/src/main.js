@@ -2,8 +2,23 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
-// 引入 Element Plus 组件
 import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import 'sweetalert2/dist/sweetalert2.css'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
-createApp(App).use(store).use(router).use(ElementPlus).mount('#app') // 在这里使用 Element Plus
+const app = createApp(App)
+
+// 全局注册 Element Plus 组件
+app.use(ElementPlus)
+
+// 全局注册 Element Plus 图标组件
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
+}
+
+// 使用路由和状态管理
+app.use(router).use(store)
+
+// 挂载到页面
+app.mount('#app')

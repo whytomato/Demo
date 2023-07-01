@@ -23,6 +23,13 @@ const routes = [
     component: function () {
       return import('../views/RegisterView.vue')
     }
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: function () {
+      return import('../views/test.vue')
+    }
   }
 ]
 

@@ -1,24 +1,36 @@
 <template>
     <el-input v-model="username" placeholder="Please input" />
-    <el-input v-model="password_1" placeholder="Please input" />
-    <el-input v-model="password_2" placeholder="Please input" />
+    <el-input v-model="password_1" placeholder="Please input" type="password" show-password />
+    <el-input v-model="password_2" placeholder="Please input" type="password" show-password />
     <el-button type="success" @click="send">register</el-button>
 </template>
 
 <script>
 import axios from 'axios'
+import Swal from 'sweetalert2'
 export default {
     data() {
         return {
             username: '',
             password_1: '',
-            password_2: ''
+            password_2: '',
         }
     },
     methods: {
         send() {
-
             let data = new FormData()
+            if (this.username == '') {
+                Swal.fire('注册失败!',
+                    '请输入用户名！',
+                    'error')
+                return
+            }
+            if (this.password_1 == '' || this.password_2 == '') {
+                Swal.fire('注册失败!',
+                    '请输入密码！',
+                    'error')
+                return
+            }
             data.append("username", this.username)
             data.append("password_1", this.password_1)
             data.append("password_2", this.password_2)
@@ -26,22 +38,31 @@ export default {
                 .then(response => {
                     switch (response.data.errno) {
                         case 0:
-                            alert("注册成功")
+                            Swal.fire('恭喜!',
+                                '你已经注册成功！',
+                                'success')
                             break;
                         case 1001:
-                            alert("请求方式错误")
+                            Swal.fire('ERROR!',
+                                '请求方式错误！',
+                                'error')
                             break;
                         case 1002:
-                            alert("用户名重复")
+                            Swal.fire('注册失败!',
+                                '用户名重复，请重试！',
+                                'warning')
                             break;
                         case 1003:
-                            alert("两次输入的密码不同")
+                            Swal.fire('注册失败!',
+                                '两次输入的密码不同，请重试！',
+                                'warning')
                             break;
                         default:
                             break;
                     }
                 })
-        }
+        },
+
     }
 }
 </script>
