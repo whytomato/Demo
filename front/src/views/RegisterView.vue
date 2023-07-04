@@ -2,12 +2,15 @@
     <el-input v-model="username" placeholder="Please input" />
     <el-input v-model="password_1" placeholder="Please input" type="password" show-password @input="handleInput1($event)" />
     <el-input v-model="password_2" placeholder="Please input" type="password" show-password @input="handleInput2($event)" />
+    <el-input v-model="emailaddress" placeholder="Please input" />
+
     <el-button type="success" @click="send">register</el-button>
 </template>
 
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
+
 export default {
     data() {
         return {
@@ -80,6 +83,7 @@ export default {
                     }
                 })
         },
+
         handleInput1(event) {
             // const input = event.target.value;
             // const filteredInput = input.replace(/\s/g, '');
