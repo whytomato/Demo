@@ -1,7 +1,7 @@
 <template>
     <el-input v-model="username" placeholder="Please input" />
-    <el-input v-model="password_1" placeholder="Please input" type="password" show-password />
-    <el-input v-model="password_2" placeholder="Please input" type="password" show-password />
+    <el-input v-model="password_1" placeholder="Please input" type="password" show-password @input="handleInput1($event)" />
+    <el-input v-model="password_2" placeholder="Please input" type="password" show-password @input="handleInput2($event)" />
     <el-button type="success" @click="send">register</el-button>
 </template>
 
@@ -15,6 +15,12 @@ export default {
             password_1: '',
             password_2: '',
         }
+    },
+    mounted() {
+        document.addEventListener('keydown', this.handleKeyDown);
+    },
+    destroyed() {
+        document.removeEventListener('keydown', this.handleKeyDown)
     },
     methods: {
         send() {
@@ -74,7 +80,24 @@ export default {
                     }
                 })
         },
-
+        handleInput1(event) {
+            // const input = event.target.value;
+            // const filteredInput = input.replace(/\s/g, '');
+            const filteredInput = event.trim();
+            this.password_1 = filteredInput;
+        },
+        handleInput2(event) {
+            // const input = event.target.value;
+            // const filteredInput = input.replace(/\s/g, '');
+            const filteredInput = event.trim();
+            this.password_2 = filteredInput;
+        },
+        handleKeyDown(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                this.send();
+            }
+        }
     }
 }
 </script>
