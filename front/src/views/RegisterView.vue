@@ -8,7 +8,7 @@
         <el-input v-model="verification_code" placeholder="verification_code" />
     </div>
     <el-switch v-model="isEmail" />
-    <el-button type="success" @click="send">register</el-button>
+    <el-button type="success" @click="send">注册</el-button>
     <el-button type="primary" :disabled="countdown > 0" @click="sendCode">{{ buttonText }}</el-button>
 </template>
 
@@ -146,7 +146,7 @@ export default {
         },
         startCountdown() {
             if (this.countdown === 0) {
-                this.countdown = 30; // 设置倒计时时间为两分钟（120秒）
+                this.countdown = 10;
                 this.updateButtonText();
 
                 const timer = setInterval(() => {

@@ -96,7 +96,7 @@ def sendcode(request):
                 subject, message, sender_email, [recipient_email])
             email.from_email = f'{sender_name} <{sender_email}>'
             email.send()
-            expiration_time = timezone.now() + timezone.timedelta(seconds=30)  # 设置验证码的有效期为两分钟
+            expiration_time = timezone.now() + timezone.timedelta(minutes=2)  # 设置验证码的有效期为两分钟
             verification_codes[recipient_email] = {
                 'code': verification_code, 'expiration_time': expiration_time}
             return JsonResponse({'success': True, 'message': '验证码已发送', 'expiration_time': expiration_time.timestamp()})
