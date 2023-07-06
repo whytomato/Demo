@@ -2,9 +2,14 @@
     <el-input v-model="username" placeholder="Please input" />
     <el-input v-model="password_1" placeholder="Please input" type="password" show-password @input="handleInput1($event)" />
     <el-input v-model="password_2" placeholder="Please input" type="password" show-password @input="handleInput2($event)" />
-    <el-input v-model="emailaddress" placeholder="Please input" />
 
+    <div v-if="isEmail">
+        <el-input v-model="emailaddress" placeholder="email" />
+        <el-input v-model="verification_code" placeholder="verification_code" />
+    </div>
+    <el-switch v-model="isEmail" />
     <el-button type="success" @click="send">register</el-button>
+    <el-button type="primary" :disabled="countdown > 0" @click="sendCode">{{ buttonText }}</el-button>
 </template>
 
 <script>
@@ -17,6 +22,11 @@ export default {
             username: '',
             password_1: '',
             password_2: '',
+            emailaddress: '',
+            countdown: 0,
+            buttonText: '发送',
+            verification_code: '',
+            isEmail: true
         }
     },
     mounted() {
@@ -52,9 +62,24 @@ export default {
                     'error')
                 return
             }
+            if (this.isEmail) {
+                if (!this.emailaddress) {
+                    Swal.fire('注册失败', '请输入有效的邮箱地址！', 'error')
+                    return
+                }
+                if (!this.isEmailValid(this.emailaddress)) {
+                    Swal.fire('注册失败', '请输入有效的邮箱地址！', 'error')
+                    return
+                }
+            }
             data.append("username", this.username)
             data.append("password_1", this.password_1)
             data.append("password_2", this.password_2)
+            if (this.isEmail) {
+                data.append("email", this.emailaddress)
+                data.append("verification_code", this.verification_code)
+            }
+            data.append("isEmail", this.isEmail)
             axios.post('/api/publish/register', data)
                 .then(response => {
                     switch (response.data.errno) {
@@ -78,12 +103,69 @@ export default {
                                 '两次输入的密码不同，请重试！',
                                 'warning')
                             break;
+                        case 1004:
+                            Swal.fire('注册失败', response.data.msg, 'error')
+                            break;
+                        case 1005:
+                            Swal.fire('注册失败', response.data.msg, 'error')
+                            break;
+                        case 1006:
+                            Swal.fire('注册失败', response.data.msg, 'error')
+                            break;
                         default:
                             break;
                     }
                 })
         },
+        sendCode() {
+            if (!this.isEmailValid(this.emailaddress)) {
+                Swal.fire('发送失败', '请输入有效的邮箱地址！', 'error')
+                return
+            }
+            let data = new FormData()
+            data.append('email', this.emailaddress)
+            if (this.countdown === 0) {
+                this.countdown = 10;
+                this.updateButtonText();
 
+                const timer = setInterval(() => {
+                    if (this.countdown > 0) {
+                        this.countdown--;
+                        this.updateButtonText();
+                    } else {
+                        clearInterval(timer);
+                    }
+                }, 1000); // 每秒更新倒计时时间
+            }
+            axios.post('/api/publish/sendcode', data)
+                .then(response => {
+                    console.log('发送成功')
+                }).catch(error => {
+                    console.error('发送失败')
+                })
+        },
+        startCountdown() {
+            if (this.countdown === 0) {
+                this.countdown = 30; // 设置倒计时时间为两分钟（120秒）
+                this.updateButtonText();
+
+                const timer = setInterval(() => {
+                    if (this.countdown > 0) {
+                        this.countdown--;
+                        this.updateButtonText();
+                    } else {
+                        clearInterval(timer);
+                    }
+                }, 1000); // 每秒更新倒计时时间
+            }
+        },
+        updateButtonText() {
+            if (this.countdown > 0) {
+                this.buttonText = `${this.countdown} 秒后重新发送`;
+            } else {
+                this.buttonText = '重新发送';
+            }
+        },
         handleInput1(event) {
             // const input = event.target.value;
             // const filteredInput = input.replace(/\s/g, '');
@@ -101,6 +183,10 @@ export default {
                 event.preventDefault();
                 this.send();
             }
+        },
+        isEmailValid(email) {
+            const pattern = /^[\w.-]+@[\w.-]+\.\w+$/
+            return pattern.test(email)
         }
     }
 }
