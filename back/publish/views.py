@@ -28,7 +28,7 @@ def register(request):  # 继承请求类
 
         if isEmail == 'true':
             if not verification_code:
-                return JsonResponse({'errno': 1004, 'msg': "请提供验证码！"})
+                return JsonResponse({'errno': 1004, 'msg': "请输入验证码！"})
 
             verification_info = verification_codes.get(email)
             if not verification_info or verification_info['code'] != verification_code:
