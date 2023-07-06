@@ -167,14 +167,10 @@ export default {
             }
         },
         handleInput1(event) {
-            // const input = event.target.value;
-            // const filteredInput = input.replace(/\s/g, '');
             const filteredInput = event.trim();
             this.password_1 = filteredInput;
         },
         handleInput2(event) {
-            // const input = event.target.value;
-            // const filteredInput = input.replace(/\s/g, '');
             const filteredInput = event.trim();
             this.password_2 = filteredInput;
         },

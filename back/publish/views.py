@@ -28,16 +28,16 @@ def register(request):  # 继承请求类
 
         if isEmail == 'true':
             if not verification_code:
-                return JsonResponse({'errno': 1004, 'msg': "未提供验证码"})
+                return JsonResponse({'errno': 1004, 'msg': "请提供验证码！"})
 
             verification_info = verification_codes.get(email)
             if not verification_info or verification_info['code'] != verification_code:
-                return JsonResponse({'errno': 1005, 'msg': "验证码无效"})
+                return JsonResponse({'errno': 1005, 'msg': "验证码无效！"})
 
             current_time = timezone.now()
             expiration_time = verification_codes[email]['expiration_time']
             if current_time > expiration_time:
-                return JsonResponse({'errno': 1006, 'msg': "验证码已过期"})
+                return JsonResponse({'errno': 1006, 'msg': "验证码已过期！"})
 
             del verification_codes[email]
 
@@ -101,7 +101,7 @@ def sendcode(request):
                 'code': verification_code, 'expiration_time': expiration_time}
             return JsonResponse({'success': True, 'message': '验证码已发送', 'expiration_time': expiration_time.timestamp()})
         else:
-            return JsonResponse({'success': False, 'message': '未提供有效的邮箱地址'})
+            return JsonResponse({'success': False, 'message': '未提供有效的邮箱地址！'})
 
 
 def generate_verification_code():
