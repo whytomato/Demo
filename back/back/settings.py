@@ -130,3 +130,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MIGRATION_MODULES = {
 
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = '1158152324@qq.com'  # 使用你的 QQ 邮箱地址替换
+EMAIL_HOST_PASSWORD = 'fkgpzektnujtijge'  # 使用你的 QQ 邮箱授权码替换
+EMAIL_USE_TLS = True
