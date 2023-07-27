@@ -30,6 +30,20 @@ const routes = [
     component: function () {
       return import('../views/test.vue')
     }
+  },
+  {
+    path: '/button',
+    name: 'button',
+    component: function () {
+      return import('../views/Button.vue')
+    }
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: function () {
+      return import('../views/Login.vue')
+    }
   }
 ]
 

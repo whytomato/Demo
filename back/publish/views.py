@@ -54,12 +54,12 @@ def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        if request.session.get('id'):
-            return JsonResponse({'errno': 1004, 'msg': "不能重复登录"})
+        # if request.session.get('id'):
+        # return JsonResponse({'errno': 1004, 'msg': "不能重复登录"})
         try:
             user = User.objects.get(username=username)
             if user.password == password:
-                request.session['id'] = user.id
+                # request.session['id'] = user.id
                 return JsonResponse({'errno': 0, 'msg': "登录成功"})
             else:
                 return JsonResponse({'errno': 1003, 'msg': "密码错误"})
