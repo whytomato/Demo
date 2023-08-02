@@ -344,13 +344,19 @@ const register = () => {
     }
     data.append("isEmail", emaildata.isEmail)
     // data.append("isEmail", "false")
-    axios.post('/api/publish/register', data)
+    axios.post('/api/user/register', data)
         .then(response => {
             switch (response.data.errno) {
                 case 0:
                     Swal.fire('恭喜!',
                         '你已经注册成功！',
-                        'success')
+                        'success').then(result => {
+                            emaildata.isEmail = false
+                            if (result.isConfirmed) {
+                                location.reload()
+                            }
+                        })
+                    emaildata.isEmail = false
                     break;
                 case 1001:
                     Swal.fire('ERROR!',
@@ -368,13 +374,25 @@ const register = () => {
                         'warning')
                     break;
                 case 1004:
-                    Swal.fire('注册失败', response.data.msg, 'error')
+                    Swal.fire('注册失败', response.data.msg, 'error').then(result => {
+                        if (result.isConfirmed) {
+                            showSwalWithCountdown()
+                        }
+                    })
                     break;
                 case 1005:
-                    Swal.fire('注册失败', response.data.msg, 'error')
+                    Swal.fire('注册失败', response.data.msg, 'error').then(result => {
+                        if (result.isConfirmed) {
+                            showSwalWithCountdown()
+                        }
+                    })
                     break;
                 case 1006:
-                    Swal.fire('注册失败', response.data.msg, 'error')
+                    Swal.fire('注册失败', response.data.msg, 'error').then(result => {
+                        if (result.isConfirmed) {
+                            showSwalWithCountdown()
+                        }
+                    })
                     break;
                 default:
                     break;
@@ -420,7 +438,7 @@ const sendCode = () => {
         //     }
         // }, 1000); // 每秒更新倒计时时间
     }
-    axios.post('/api/publish/sendcode', data)
+    axios.post('/api/user/sendcode', data)
         .then(response => {
             showSwalWithCountdown()
             console.log('发送成功')
@@ -432,28 +450,34 @@ const sendCode = () => {
 let isResendButtonDisabled = false;
 const startCountdown = () => {
     const resendButton = Swal.getCancelButton();
-    resendButton.disabled = true
+    resendButton.disabled = true;
+
+    // 先执行一次倒计时更新
+    updateCountdown(resendButton);
+
+    // 设置定时器
     const timer = setInterval(() => {
         if (countdown > 0) {
             countdown--;
-            // const cancelButtonText = countdown > 0 ? `重新发送 (${countdown}s)` : `重新发送`;
-            Swal.update({
-                allowOutsideClick: false,
-                cancelButtonText: `重新发送 (${countdown}s)`,
-                showCancelButton: true,
-                // cancelButtonColor: isResendButtonDisabled ? '#999999' : '',
-
-            });
+            updateCountdown(resendButton); // 更新倒计时显示
         } else {
             clearInterval(timer);
-            resendButton.disabled = false,
-                Swal.update({
-
-                    showCancelButton: true,
-                    cancelButtonText: `重新发送`
-                })
+            resendButton.disabled = false;
+            Swal.update({
+                showCancelButton: true,
+                cancelButtonText: `重新发送`
+            });
         }
     }, 1000);
+};
+
+const updateCountdown = (resendButton) => {
+    const cancelButtonText = countdown > 0 ? `重新发送 (${countdown}s)` : `重新发送`;
+    Swal.update({
+        allowOutsideClick: false,
+        cancelButtonText: cancelButtonText,
+        showCancelButton: true,
+    });
 };
 
 const showSwalWithCountdown = () => {
@@ -476,6 +500,7 @@ const showSwalWithCountdown = () => {
             // 处理注册逻辑
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             countdown = 10
+            sendCode()
             showSwalWithCountdown()
             // 处理重新发送逻辑
         }

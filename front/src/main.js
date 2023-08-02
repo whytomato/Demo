@@ -6,6 +6,9 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'sweetalert2/dist/sweetalert2.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://43.138.116.210';
 
 const app = createApp(App)
 
