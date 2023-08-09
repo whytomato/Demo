@@ -1,7 +1,5 @@
 <template>
-    <el-input v-model="username"></el-input>
-    <el-input v-model="password_1"></el-input>
-    <el-input v-model="password_2"></el-input>
+    <div>1</div>
     <el-button @click="send">send</el-button>
 </template>
 <script>

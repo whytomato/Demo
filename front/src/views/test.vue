@@ -19,6 +19,9 @@
     <div class="box">
         <h2>css</h2>
     </div>
+    <div>
+        <el-button @click="testlogin">testsend</el-button>
+    </div>
 </template>
 <style>
 .box {
@@ -70,6 +73,8 @@
 }
 </style>
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -110,6 +115,17 @@ export default {
                 this.buttonText = '点击开始';
             }
         },
+        testlogin() {
+            let data = new FormData()
+            axios.post('/api/user/test', data, {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true
+            }).then(Response => {
+                console.log(Response.data.errno)
+            })
+        }
     }
 }
 </script>

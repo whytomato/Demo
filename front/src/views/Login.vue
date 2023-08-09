@@ -525,12 +525,17 @@ const login = () => {
     }
     data.append("username", loginForm.username)
     data.append("password", loginForm.password)
-    axios.post('/api/publish/login', data).then(response => {
+    axios.post('/api/user/login', data).then(response => {
         switch (response.data.errno) {
             case 0:
                 Swal.fire('恭喜!',
                     '你已经登录成功！',
                     'success')
+                // .then(result => {
+                //     if (result.isConfirmed) {
+                //         window.location.href = '/test1'
+                //     }
+                // })
                 break;
             case 1001:
                 Swal.fire('ERROR!',
