@@ -22,6 +22,17 @@
     <div>
         <el-button @click="testlogin">testsend</el-button>
     </div>
+
+    <body>
+        <div class="container">
+            <div class="button-wrapper">
+                <svg width="240" height="60">
+                    <rect class="rectangle" width="240" height="60"></rect>
+                </svg>
+                <div class="btn">按钮</div>
+            </div>
+        </div>
+    </body>
 </template>
 <style>
 .box {
@@ -70,6 +81,56 @@
     background: #0e1538;
     inset: 5px;
     border-radius: 20px;
+}
+
+.body {
+    padding: 0;
+    margin: 0;
+    font-family: "PingFang SC";
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20vw;
+    height: 10vh;
+    background: #2f3542;
+}
+
+.button-wrapper {
+    position: relative;
+    width: 240px;
+    height: 60px;
+    text-align: center;
+}
+
+.rectangle {
+    stroke-width: 8px;
+    stroke: #ff6348;
+    fill: transparent;
+    stroke-dasharray: 100 500;
+    stroke-dashoffset: -374;
+}
+
+.btn {
+    color: white;
+    font-size: 18px;
+    letter-spacing: 6px;
+    position: relative;
+    top: -48px;
+}
+
+@keyframes extend {
+    to {
+        stroke-dasharray: 600;
+        stroke-dashoffset: 0;
+        stroke-width: 2;
+    }
+}
+
+.button-wrapper:hover .rectangle {
+    animation: 0.5s extend linear forwards;
 }
 </style>
 <script>

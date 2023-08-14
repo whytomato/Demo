@@ -51,6 +51,27 @@ const routes = [
     component: function () {
       return import('../views/testregister.vue')
     }
+  },
+  {
+    path: '/test9',
+    name: 'test9',
+    component: function () {
+      return import('../views/Test/test9.vue')
+    }
+  },
+  {
+    path: '/test10',
+    name: 'test10',
+    component: function () {
+      return import('../views/Test/test10.vue')
+    }
+  },
+  {
+    path: '/sidebar',
+    name: 'sidebar',
+    component: function () {
+      return import('../views/Test/sidebar.vue')
+    }
   }
 ]
 
