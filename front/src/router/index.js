@@ -72,6 +72,13 @@ const routes = [
     component: function () {
       return import('../views/Test/sidebar.vue')
     }
+  },
+  {
+    path:'/card',
+    name:'card',
+    component:function (){
+      return import('../views/Test/card.vue')
+    }
   }
 ]
 
